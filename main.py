@@ -19,7 +19,6 @@ class Gofengine:
             for column in row:
                 print('O', end='') if column else print('.', end='')
             print()
-        print()
 
     def count_neighbor(self, row, column):
         """ Return the number of neighbours
@@ -134,6 +133,7 @@ class Gameoflife(Gofengine):
 
     def kill(self):
         """ Reset the place"""
+
         self.place = (np.zeros((100, 100))) != 0
         self._round = 0
         self._status_text.config(text='Extinction')
@@ -145,7 +145,10 @@ class Gameoflife(Gofengine):
 
     def add_cell(self, event):
 
-        self.life = (event.y//10, event.x//10)
+        def rounding(number):
+            return number//10+1 if number % 10 >= 5 else number//10
+
+        self.life = (rounding(event.y), rounding(event.x))
         self.update_app()
 
     def draw_cell(self, column, row):
